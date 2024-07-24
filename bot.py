@@ -46,7 +46,22 @@ def on_finish_click(message):
 
 @bot.message_handler()
 def text_procesing(message):
+    game.ask_question(message.text)
 
+    if game.is_correct_answer():
+        game_win_state(message)
 
+    if game.is_game_over():
+        game_over_state(message)
+
+    else:
+        bot.send_message(message.chat.id, game.get_answer())
+
+def game_over_state(message):
+    bot.send_message(message.chat.id, texts.game_over_text(game.get_item()))
+    start()
+def game_win_state(message):
+    bot.send_message(message.chat.id, texts.game_win_text(game.get_item()))
+    start()
 
 bot.polling(non_stop=True)
