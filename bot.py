@@ -43,6 +43,7 @@ def on_finish_click(message):
 
     else:
         text_procesing(message)
+
 @bot.message_handler()
 def text_procesing(message):
 
