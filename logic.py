@@ -10,6 +10,7 @@ class Game:
         self.client = Client(self.item)
         self.last_question = None
         self.last_question_answer = None
+        print('Game/init item ', self.item)
 
     def ask_question(self, question):
 # todo: question len limit
@@ -28,9 +29,11 @@ class Game:
         return self.item
 
     def is_game_over(self):
-        return self.current_question >= 20
+        return self.current_question >= 5
 
     def is_correct_answer(self):
         lev_dist = [lev(self.get_item().lower(), word.lower()) for word in self.last_question.split()]
         return True if min(lev_dist) < 3 else False
 
+    def __get_current_question__(self):
+        return self.current_question
