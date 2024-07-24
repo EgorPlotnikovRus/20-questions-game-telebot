@@ -17,6 +17,10 @@ class Game:
         self.current_question += 1
         self.client.ask_question(question)
         self.last_question_answer = self.client.give_answer()
+
+        if self.last_question_answer != 'Да.' and self.last_question_answer != 'Нет.':
+            self.last_question_answer = 'Задайте другой вопрос'
+
     def get_answer(self):
         return self.last_question_answer
 

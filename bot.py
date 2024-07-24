@@ -59,9 +59,9 @@ def text_procesing(message):
 
 def game_over_state(message):
     bot.send_message(message.chat.id, texts.game_over_text(game.get_item()))
-    start()
+    start(message)
 def game_win_state(message):
     bot.send_message(message.chat.id, texts.game_win_text(game.get_item()))
-    start()
+    start(message)
 
 bot.polling(non_stop=True)
