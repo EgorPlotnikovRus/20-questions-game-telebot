@@ -11,3 +11,5 @@ def game_over_text(item):
 
 def game_win_text(item):
     return f'Поздравляем, вы правильно отгадали слово "{item}"'
+
+error_len_quest = 'Слишком большая длина вопроса. Попробуйте задать вопрос короче'

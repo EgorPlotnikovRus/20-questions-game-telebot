@@ -1,6 +1,7 @@
 from  openai_helpers import  Client
 import texts
 from Levenshtein import distance as lev
+
 import random
 
 class Game:
@@ -14,6 +15,10 @@ class Game:
 
     def ask_question(self, question):
 # todo: question len limit
+        if len(question) > 100:
+            self.last_question_answer = texts.error_len_quest
+            return
+
         self.last_question = question
         self.current_question += 1
         self.client.ask_question(question)
