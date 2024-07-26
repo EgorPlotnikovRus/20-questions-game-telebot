@@ -25,27 +25,32 @@ def on_begin_click(message):
     if message.text == "Начать":
         play(message)
     else:
-        start(message)
+        wait(message)
 @bot.message_handler(commands=['play'])
 def play(message):
     global game
     game = logic.Game()
-    print
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton("Закончить")
     markup.add(item1)
     bot.send_message(message.chat.id, texts.play_message, reply_markup=markup)
     bot.register_next_step_handler(message, on_finish_click)
-    print("bot/play ", game.__get_current_question__())
 
 def on_finish_click(message):
     print("bot/on_finish_click ", game.__get_current_question__())
     if message.text == "Закончить":
-        start(message)
+        wait(message)
 
     else:
         text_procesing(message)
+
+def wait(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = types.KeyboardButton("Начать")
+    markup.add(item1)
+    bot.send_message(message.chat.id, texts.wait_message, reply_markup=markup)
+    bot.register_next_step_handler(message, on_begin_click)
 
 @bot.message_handler()
 def text_procesing(message):
@@ -59,16 +64,21 @@ def text_procesing(message):
         game_over_state(message)
 
     else:
-        bot.send_message(message.chat.id, 'hui')
-        bot.send_message(message.chat.id, game.get_answer())
+        #bot.send_message(message.chat.id, game.get_answer())
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        item1 = types.KeyboardButton("Закончить")
+        markup.add(item1)
+        bot.send_message(message.chat.id, game.get_answer(), reply_markup=markup)
+        bot.register_next_step_handler(message, on_finish_click)
+
 
 def game_over_state(message):
     print("bot/game_over_state ", game.__get_current_question__())
     bot.send_message(message.chat.id, texts.game_over_text(game.get_item()))
-    start(message)
+    wait(message)
 def game_win_state(message):
     print("bot/game_win_state ", game.__get_current_question__())
     bot.send_message(message.chat.id, texts.game_win_text(game.get_item()))
-    start(message)
+    wait(message)
 
 bot.polling(non_stop=True)
