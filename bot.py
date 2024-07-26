@@ -26,6 +26,7 @@ def on_begin_click(message):
         play(message)
     else:
         wait(message)
+
 @bot.message_handler(commands=['play'])
 def play(message):
     global game
@@ -38,7 +39,6 @@ def play(message):
     bot.register_next_step_handler(message, on_finish_click)
 
 def on_finish_click(message):
-    print("bot/on_finish_click ", game.__get_current_question__())
     if message.text == "Закончить":
         wait(message)
 
@@ -54,7 +54,6 @@ def wait(message):
 
 @bot.message_handler()
 def text_procesing(message):
-    print("bot/text_procesing ", game.__get_current_question__())
     game.ask_question(message.text)
 
     if game.is_correct_answer():
@@ -71,14 +70,13 @@ def text_procesing(message):
         bot.send_message(message.chat.id, game.get_answer(), reply_markup=markup)
         bot.register_next_step_handler(message, on_finish_click)
 
-
 def game_over_state(message):
-    print("bot/game_over_state ", game.__get_current_question__())
     bot.send_message(message.chat.id, texts.game_over_text(game.get_item()))
     wait(message)
+
 def game_win_state(message):
-    print("bot/game_win_state ", game.__get_current_question__())
     bot.send_message(message.chat.id, texts.game_win_text(game.get_item()))
     wait(message)
 
-bot.polling(non_stop=True)
+if __name__ == '__main__':
+    bot.polling(non_stop=True)
