@@ -12,7 +12,6 @@ class Game:
         self.last_question = ""
         self.last_question_answer = None
 
-        print(self.item)
     def ask_question(self, question: str) -> None:
         if len(question) > 100:
             self.last_question_answer = constants.ERROR_LEN_QUEST
@@ -32,7 +31,7 @@ class Game:
         return self.item
 
     def is_game_over(self) -> bool:
-        return self.current_question >= 5
+        return self.current_question >= 20
 
     def is_correct_answer(self) -> bool:
         if self.last_question_answer is None:

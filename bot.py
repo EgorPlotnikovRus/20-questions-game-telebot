@@ -44,12 +44,12 @@ def wait_for_new_game(message: telebot.types.Message) -> None:
     bot.register_next_step_handler(message, on_begin_click)
 
 @bot.message_handler()
-def text_procesing(message: telebot.types.Message, game: logic.Game) -> None:
-    try:
-        game.ask_question(message.text)
-    except AttributeError:
+def text_procesing(message: telebot.types.Message, game: logic.Game = None) -> None:
+    if game is None:
         wait_for_new_game(message)
+        return
 
+    game.ask_question(message.text)
     handle_game_state(message, game)
 
 def handle_game_state(message: telebot.types.Message, game: logic.Game) -> None:
